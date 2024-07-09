@@ -25,5 +25,6 @@ public int GuessNumber(int n) {
         if(n==0) n=1;
         t = guess(m);
     }
+    
     return m;
 }
