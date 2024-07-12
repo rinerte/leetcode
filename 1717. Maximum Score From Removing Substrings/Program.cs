@@ -5,49 +5,38 @@
 // Remove substring "ba" and gain y points.
 // For example, when removing "ba" from "cabxbae" it becomes "cabxe".
 // Return the maximum points you can gain after applying the above operations on s.
-public int MaximumGain(string s, int x, int y) {
-        
-    string first, second;
-    if(x>y){
-        first = "ab";
-        second = "ba";
-    } else {
-        first = "ba";
-        second = "ab";
-        int temp = x;
-        x=y;
-        y= temp;
-    }
+Console.WriteLine(MaximumGain("aabbabkbbbfvybssbtaobaaaabataaadabbbmakgabbaoapbbbbobaabvqhbbzbbkapabaavbbeghacabamdpaaqbqabbjbababmbakbaabajabasaabbwabrbbaabbafubayaazbbbaababbaaha",1926,4320));
 
-    int i=1;
-    int count =0;
-    bool changed = true;
-        while(changed){
-            StringBuilder sb = new(s);
-            changed = false;
-            for(int j=1;j<s.Length;j++){
-                if(s[j]==first[1] && s[j-1]==first[0]){
-                    sb[j]=' ';
-                    sb[j-1]=' ';
-                    changed = true;
-                    count+=x;
-                }
-            }
-            s = sb.ToString().Replace(" ","");
+int MaximumGain(string s, int x, int y) {        
+    string first, second;
+        if(x>y){
+            first = "ab";
+            second = "ba";
+        } else {
+            first = "ba";
+            second = "ab";
+            (x,y)=(y,x);
         }
-        changed = true;
-        while(changed){
-            StringBuilder sb = new(s);
-            changed = false;
-            for(int j=1;j<s.Length;j++){
-                if(s[j]==second[1] && s[j-1]==second[0]){
-                    sb[j]=' ';
-                    sb[j-1]=' ';
-                    changed = true;
-                    count+=y;
-                }
-            }
-            s = sb.ToString().Replace(" ","");
+
+        int count =0;
+        Stack<char> st = new();
+
+        for(int i=0;i<s.Length;i++){
+            if(st.Count()>0 && st.Peek().ToString()+s[i].ToString()==first) {
+                st.Pop();
+                count+=x;
+            } else
+            st.Push(s[i]);
+        }
+
+        Stack<char> st2 = new();
+
+        while(st.Count()>0){
+            var ch = st.Pop();
+            if(st2.Count()>0 && ch.ToString()+st2.Peek().ToString()==second){
+                count+=y;
+                st2.Pop();
+            } else st2.Push(ch);
         }
         return count;
 }
