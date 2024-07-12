@@ -21,19 +21,33 @@ public int MaximumGain(string s, int x, int y) {
 
     int i=1;
     int count =0;
-    while(i>=0){
-        i = s.IndexOf(first);
-        count+=x;
-        if(i<0) {
-            i = s.IndexOf(second);
-            count-=x;
-            count+=y;
+    bool changed = true;
+        while(changed){
+            StringBuilder sb = new(s);
+            changed = false;
+            for(int j=1;j<s.Length;j++){
+                if(s[j]==first[1] && s[j-1]==first[0]){
+                    sb[j]=' ';
+                    sb[j-1]=' ';
+                    changed = true;
+                    count+=x;
+                }
+            }
+            s = sb.ToString().Replace(" ","");
         }
-        if(i<0) {
-            count-=y;
-            break;
+        changed = true;
+        while(changed){
+            StringBuilder sb = new(s);
+            changed = false;
+            for(int j=1;j<s.Length;j++){
+                if(s[j]==second[1] && s[j-1]==second[0]){
+                    sb[j]=' ';
+                    sb[j-1]=' ';
+                    changed = true;
+                    count+=y;
+                }
+            }
+            s = sb.ToString().Replace(" ","");
         }
-        s = s.Remove(i,2);
-    }
-    return count;
+        return count;
 }
