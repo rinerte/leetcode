@@ -7,66 +7,23 @@
 // 'U' means to go from a node to its parent node.
 // Return the step-by-step directions of the shortest path from node s to node t.
 public string GetDirections(TreeNode root, int startValue, int destValue) {
-    StringBuilder first = new();
-    StringBuilder second = new();
-    Stack<TreeNode> stack = new();
-    Dictionary<int,bool> visited = new();
-    stack.Push(root);
+    Dictionary<int,string> paths= new();
+        Stack<TreeNode> stack = new();
+        stack.Push(root);
+        paths[root.val] = "";
 
-    while(stack.Count()>0){
-        var node = stack.Peek();
-        if(node.val==startValue){
-            stack = new();
-            visited = new();
-            break;
+        while(stack.Any()){
+            var node = stack.Pop();
+            if(node.left!=null){
+                paths[node.left.val] = paths[node.val]+"L";
+                stack.Push(node.left);
+            }
+            if(node.right!=null){
+                paths[node.right.val] = paths[node.val]+"R";
+                stack.Push(node.right);
+            }
         }
-        if(visited.ContainsKey(node.val)){
-            first.Length--;
-            stack.Pop();
-        }
-        if(node.left!=null){
-            first.Append("L");
-            stack.Push(node.left);
-        }
-        if(node.right!=null){
-            first.Append("R");
-            stack.Push(node.right);
-        }
-        if(node.left==null && node.right==null){
-            first.Length--;
-            stack.Pop();
-        }
-        
-        visited[node.val] = true;
-    }
-    //second
-    stack.Push(root);
-
-    while(stack.Count()>0){
-        var node = stack.Peek();
-        if(node.val==destValue){
-            break;
-        }
-        if(visited.ContainsKey(node.val)){
-            second.Length--;
-            stack.Pop();
-        }
-        if(node.left!=null){
-            second.Append("L");
-            stack.Push(node.left);
-        }
-        if(node.right!=null){
-            second.Append("R");
-            stack.Push(node.right);
-        }
-        if(node.left==null && node.right==null){
-            second.Length--;
-            stack.Pop();
-        }
-        
-        visited[node.val] = true;
-    }
-
-    return first.ToString()+"+"+second.ToString();
+        result = paths[startValue] + paths[destValue];
+        return result.ToString();
 
 }
