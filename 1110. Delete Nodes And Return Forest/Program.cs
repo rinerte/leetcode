@@ -6,44 +6,28 @@
 var t = new TreeNode(1,null,new TreeNode(2,null,new TreeNode(3, null, null)));
 var c = DelNodes(t,new int[1]{3});
 
-IList<TreeNode> DelNodes(TreeNode root, int[] to_delete) {
-        
-    Stack<TreeNode> stack = new();
-    List<TreeNode> forest = new();
-    HashSet<int> hash = new();
+public IList<TreeNode> DelNodes(TreeNode root, int[] to_delete) {
+    HashSet<int> hash = new HashSet<int>(to_delete);
+    List<TreeNode> forest = new List<TreeNode>();
+    F(root, hash, forest, true);
+    return forest;
+}
 
-    foreach(int i in to_delete) hash.Add(i);   
-
-    stack.Push(root);
-    if(!hash.Contains(root.val)) forest.Add(root);
-    while(stack.Any()){
-        var node = stack.Pop();
-        if(node==null) continue;
-        
-        if(hash.Contains(node.val)){
-            if(node.left!=null&&!hash.Contains(node.left.val)) forest.Add(node.left);
-            if(node.right!=null&&!hash.Contains(node.right.val)) forest.Add(node.right);
-        }
-
-        if(node.left!=null){
-            if(hash.Contains(node.left.val)){
-                TreeNode t = new(node.left.val,node.left.left,node.left.right);
-                stack.Push(t);
-                node.left = null;
-            } else
-            stack.Push(node.left);
-        }
-        if(node.right!=null){
-            if(hash.Contains(node.right.val)){
-                TreeNode t = new(node.right.val,node.right.left,node.right.right);
-                stack.Push(t);
-                node.right = null;
-            } else
-            stack.Push(node.left);
-        }
+TreeNode F(TreeNode node, HashSet<int> hash, List<TreeNode> forest, bool isRoot) {
+    if (node == null) {
+        return null;
     }
 
-    return forest.ToArray();
+    bool toDelete = hash.Contains(node.val);
+
+    if (isRoot && !toDelete) {
+        forest.Add(node);
+    }
+
+    node.left = F(node.left, hash, forest, toDelete);
+    node.right = F(node.right, hash, forest, toDelete);
+
+    return toDelete ? null : node;
 }
 
 class TreeNode {
