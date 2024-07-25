@@ -7,15 +7,22 @@
 public int PairSum(ListNode head) {        
     int max =0;
     int count =0;
-    Dictionary<int,int> d = new();
+    int length = 32;
+    int[] array = new int[length];
 
     while(head!=null){
-        d[count] = head.val;
+        if(count>length-1){
+            var temp = array;
+            array = new int[length*2];
+            Array.Copy(temp,array,length);
+            length*=2;
+        }
+        array[count] = head.val;
         head = head.next;
         count++;
     }
     for(int i=0;i<count/2;i++){
-        if(d[i]+d[count-1-i]>max) max = d[i]+d[count-1-i];
+        if(array[i]+array[count-1-i]>max) max = array[i]+array[count-1-i];
     }
     return max;
 }
