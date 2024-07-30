@@ -16,3 +16,15 @@ public int MinimumDeletions(string s) {
     }
     return count;
 }
+// int count =0;
+// int countB =0;
+
+// for(int i=0;i<s.Length;i++){
+//     if(s[i]=='a'){
+//         if(countB>0){
+//             count++;
+//             countB--;
+//         }
+//     } else countB++;
+// }
+// return count;
