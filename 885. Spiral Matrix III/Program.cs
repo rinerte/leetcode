@@ -4,51 +4,51 @@
 
 // Return an array of coordinates representing the positions of the grid in the order you visited them.
 public int[][] SpiralMatrixIII(int rows, int cols, int rStart, int cStart) {
-        List<(int row, int col)> steps = new();
-        int leftBorder = cStart;
-        int rightBorder = cStart;
-        int topBorder = rStart;
-        int bottomBorder = rStart;
-        (int row, int col) current = new(rStart,cStart);
-        steps.Add(current);
+    List<(int row, int col)> steps = new();
+    int direction =0;
+    int row =rStart;
+    int col = cStart;
+    steps.Add((row,col));
+    int n = 2;
+    int temp =0;
+    while(steps.Count()<rows*cols){
+        switch(direction%4){
+            case 0: 
+            temp = col;
+            col+=n/2;
+            while(temp<col){
+                    temp++;
+                    if(row>=0 && row<rows && temp>=0 && temp<cols) steps.Add((row,temp));
+                }
+                break;
+            case 1:
+            temp = row;
+            row+=n/2;
+            while(temp<row){
+                    temp++;
+                    if(temp>=0 && temp<rows && col>=0 && col<cols) steps.Add((temp,col));
+                }
+                break;
+            case 2:
+            temp = col; 
+            col-=n/2;
+            while(temp>col){
+                    temp--;
+                    if(row>=0 && row<rows && temp>=0 && temp<cols) steps.Add((row,temp));
+                }
+                break;
+            case 3:
+            temp = row;
+            row-=n/2;
+            while(temp>row){
+                    temp--;
+                    if(temp>=0 && temp<rows && col>=0 && col<cols) steps.Add((temp,col));
+                }
+                break;
+        }
+        direction++;
+        n++;
+    }
 
-        while(steps.Count()<rows*cols){
-            Right();
-                if(Check()) break;
-            Down();
-                if(Check()) break;
-            Left();
-                if(Check()) break;
-            Up();
-        }
-        bool Check()=>steps.Count()>=rows*cols;
-        void Right(){
-            if(current.col < cols-1 && current.row>=0){
-                current.col = rightBorder++;
-                steps.Add(current);
-            } else current.col = ++rightBorder;
-            if(rightBorder>=cols) rightBorder=cols-1;
-        }
-        void Down(){
-            if(current.row < rows-1 && current.col<cols-1){
-                current.row = bottomBorder++;
-                steps.Add(current);
-            } else current.row = ++bottomBorder;
-            if(bottomBorder>=rows) bottomBorder=rows-1;
-        }
-        void Left(){
-            if(current.col>0 && current.row<rows-1){
-                current.col = leftBorder--;
-                steps.Add(current);
-            }else current.col = --leftBorder;
-            if(leftBorder<0) leftBorder=0;
-        }
-        void Up(){
-            if(current.row>0 && current.col>=0){
-                current.row = topBorder--;
-                steps.Add(current);
-            }else current.row = --topBorder;
-            if(topBorder<0) topBorder=0;
-        }
-        return steps.Select(t => new int[] { t.row, t.col }).ToArray();
+    return steps.Select(t => new int[] { t.row, t.col }).ToArray();
 }
