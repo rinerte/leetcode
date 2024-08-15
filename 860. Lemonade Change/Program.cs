@@ -4,22 +4,21 @@
 
 // Given an integer array bills where bills[i] is the bill the ith customer pays, return true if you can provide every customer with the correct change, or false otherwise.
 public bool LemonadeChange(int[] bills) {
-    Dictionary<int,int> d = new();
-    d[5] =0;
-    d[10] =0;
+    int[] ar = new int[]{0,0};
+
     foreach(int b in bills){
-        if(b==5) d[5]++;
+        if(b==5) ar[0]++;
         if(b==10){
-            if(d[5]>0){
-                d[5]--;
-                d[10]++;
+            if(ar[0]>0){
+                ar[0]--;
+                ar[1]++;
             } else return false;
         }
         if(b==20){
-            if(d[5]>0 && d[10]>0){
-                d[10]--;
-                d[5]--;
-            } else if(d[5]>2) d[5]-=3; else return false;
+            if(ar[0]>0 && ar[1]>0){
+                ar[1]--;
+                ar[0]--;
+            } else if(ar[0]>2) ar[0]-=3; else return false;
         }
     }
     return true;
