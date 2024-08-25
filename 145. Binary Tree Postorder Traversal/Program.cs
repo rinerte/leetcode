@@ -1,16 +1,23 @@
-﻿public IList<int> PostorderTraversal(TreeNode root) {
-        IList<int> preorderTraversal = new List<int>();
-            if (root == null) return preorderTraversal;
+﻿//Given the root of a binary tree, return the postorder traversal of its nodes' values.
 
-            Stack<TreeNode> stack = new Stack<TreeNode>();
-            stack.Push(root);
+public class Solution
+{
+    public IList<int> PostorderTraversal(TreeNode root)
+    {
 
-            while (stack.Any())
-            {
-                var node = stack.Pop();
-                preorderTraversal.Insert(0, node.val);
-                if (node.left != null) stack.Push(node.left);
-                if (node.right != null) stack.Push(node.right);
-            }
-            return preorderTraversal;
+        Stack<TreeNode> s = new();
+        List<int> l = new();
+        if (root == null) return l;
+
+        s.Push(root);
+        while (s.Any())
+        {
+            var node = s.Pop();
+            if (node.left != null) s.Push(node.left);
+            if (node.right != null) s.Push(node.right);
+            l.Add(node.val);
+        }
+        l.Reverse();
+        return l;
+    }
 }
