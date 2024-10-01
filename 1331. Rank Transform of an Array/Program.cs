@@ -7,3 +7,26 @@
 // Rank is an integer starting from 1.
 // The larger the element, the larger the rank. If two elements are equal, their rank must be the same.
 // Rank should be as small as possible.
+public class Solution {
+    public int[] ArrayRankTransform(int[] arr) {
+        int rank = 1;
+        int last = int.MaxValue;
+        var toCheck = Enumerable.Range(0, arr.Length).ToList();
+        
+        while(toCheck.Any()){
+            int minIndex = 0;
+            int min = int.MaxValue;
+            foreach(int index in toCheck){
+                if(arr[index]<=min){
+                     minIndex = index;
+                     min = arr[index];
+                }
+            }
+            if(arr[minIndex]>last)rank++;
+            last = arr[minIndex];
+            arr[minIndex] = rank;            
+            toCheck.Remove(minIndex);
+        }
+        return arr;
+    }
+}
