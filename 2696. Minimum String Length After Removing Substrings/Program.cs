@@ -22,3 +22,17 @@ public class Solution {
        return length; 
     }
 }
+// if without length - its slower
+// public class Solution {
+//     public int MinLength(string s) {
+//        Stack<char> stack = new();
+//        stack.Push('`');
+//        foreach(char c in s){
+//         char k = stack.Peek();
+//         if(c=='B'&&k=='A' || k=='C' && c=='D'){
+//             stack.Pop();
+//         } else stack.Push(c);
+//        }
+//        return stack.Count()-1; 
+//     }
+// }
