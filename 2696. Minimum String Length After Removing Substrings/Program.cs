@@ -5,3 +5,20 @@
 // Return the minimum possible length of the resulting string that you can obtain.
 
 // Note that the string concatenates after removing the substring and could produce new "AB" or "CD" substrings.
+public class Solution {
+    public int MinLength(string s) {
+       Stack<char> stack = new();
+       stack.Push('`');
+
+       int length = s.Length;
+       foreach(char c in s){
+        char k = stack.Peek();
+        
+        if(c=='B'&&k=='A' || k=='C' && c=='D'){
+            stack.Pop();
+            length-=2;
+        } else stack.Push(c);
+       }
+       return length; 
+    }
+}
